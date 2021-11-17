@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% block title %} categorie {% endblock %}
+{% block page_content %}
+<div class="row">
+    <div class="col-md-3">
+        <div class="card shadow-sm">
+            <h5 class="card-header">Add Category</h5>
+            <div class="card-body">
+                <form  method="POST" >
+                    {{ form.hidden_tag()}}
+                    <div class="form-group">
+                        <label class="form-label" for="name">Category</label>
+                        {{  form.name(class="form-control text-capitalize" , placeholder="categorie" ) }}
+        
+                    </div>
+                    {{  form.submit(class="btn btn-primary btn-sm") }}
+                    
+                </form>
+            </div>
+          </div>
+    </div>
+    <div class="col-md-9">
+        <div class="card">
+            <h5 class="card-header">All Category</h5>
+            <div class="card-body">
+                <table class="table" id="myTable">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Categorie</th> 
+                            <th>Action</th> 
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for categorie in categories %}
+                        <tr>
+                        <th scope="row">{{ categorie.id }}</th> 
+                            <td class="text-capitalize">{{ categorie.description }}</td>
+                            <td>
+                                <a href="/categorie/{{categorie.id}}/update" class="badge badge-secondary"> update</a>
+                                <a href="/categorie/{{categorie.id}}/delete" class="badge badge-danger btn-delete">delete</a>
+                            </td>
+                        </tr>
+                        {% endfor %} 
+                    </tbody>
+                  </table>
+            </div>
+          </div>
+    </div>
+</div>
+{% endblock %}

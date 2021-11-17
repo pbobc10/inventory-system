@@ -1,0 +1,175 @@
+Objectifs
+perfectionner les compétences de l'étudiant dans l'utilisation de C++ pour résoudre des problèmes complexes ;
+intégrer des techniques de programmation dans un programme composé de plusieurs parties différentes.
+Scénario
+Votre tâche est d'écrire un programme simple qui prétend jouer au morpion avec l'utilisateur. Pour vous faciliter la tâche, nous avons décidé de simplifier le jeu. Voici nos hypothèses :
+
+l'ordinateur (c'est-à-dire votre programme) doit jouer au jeu en utilisant des « X » ;
+l'utilisateur (par exemple, vous) doit jouer au jeu en utilisant des « O » ;
+le premier coup appartient à l'ordinateur − il place toujours son premier « X » au milieu du plateau ;
+tous les carrés sont numérotés ligne par ligne en commençant par 1 (voir l'exemple de session ci-dessous pour référence)
+l'utilisateur saisit son mouvement en entrant le numéro du carré qu'il choisit - le numéro doit être valide, c'est-à-dire qu'il doit être un entier, il doit être supérieur à 0 et inférieur à 10, et il ne peut pas pointer vers un champ qui est déjà occupé;
+le programme vérifie si le jeu est terminé - il y a quatre verdicts possibles : le jeu doit continuer, le jeu se termine par une égalité, vous gagnez ou l'ordinateur gagne ;
+l'ordinateur répond par son coup et la vérification est répétée ;
+n'implémentez aucune forme d'intelligence artificielle - un choix de champ aléatoire effectué par l'ordinateur est suffisant pour le jeu.
+L'exemple de session avec le programme peut ressembler à ceci :
+
++-------+-------+-------+
+|       |       |       |
+|   1   |   2   |   3   |
+|       |       |       |
++-------+-------+-------+
+|       |       |       |
+|   4   |   X   |   6   |
+|       |       |       |
++-------+-------+-------+
+|       |       |       |
+|   7   |   8   |   9   |
+|       |       |       |
++-------+-------+-------+
+Enter your move: 1
++-------+-------+-------+
+|       |       |       |
+|   O   |   2   |   3   |
+|       |       |       |
++-------+-------+-------+
+|       |       |       |
+|   4   |   X   |   6   |
+|       |       |       |
++-------+-------+-------+
+|       |       |       |
+|   7   |   8   |   9   |
+|       |       |       |
++-------+-------+-------+
++-------+-------+-------+
+|       |       |       |
+|   O   |   X   |   3   |
+|       |       |       |
++-------+-------+-------+
+|       |       |       |
+|   4   |   X   |   6   |
+|       |       |       |
++-------+-------+-------+
+|       |       |       |
+|   7   |   8   |   9   |
+|       |       |       |
++-------+-------+-------+
+Enter your move: 8
++-------+-------+-------+
+|       |       |       |
+|   O   |   X   |   3   |
+|       |       |       |
++-------+-------+-------+
+|       |       |       |
+|   4   |   X   |   6   |
+|       |       |       |
++-------+-------+-------+
+|       |       |       |
+|   7   |   O   |   9   |
+|       |       |       |
++-------+-------+-------+
++-------+-------+-------+
+|       |       |       |
+|   O   |   X   |   3   |
+|       |       |       |
++-------+-------+-------+
+|       |       |       |
+|   4   |   X   |   X   |
+|       |       |       |
++-------+-------+-------+
+|       |       |       |
+|   7   |   O   |   9   |
+|       |       |       |
++-------+-------+-------+
+Enter your move: 4
++-------+-------+-------+
+|       |       |       |
+|   O   |   X   |   3   |
+|       |       |       |
++-------+-------+-------+
+|       |       |       |
+|   O   |   X   |   X   |
+|       |       |       |
++-------+-------+-------+
+|       |       |       |
+|   7   |   O   |   9   |
+|       |       |       |
++-------+-------+-------+
++-------+-------+-------+
+|       |       |       |
+|   O   |   X   |   X   |
+|       |       |       |
++-------+-------+-------+
+|       |       |       |
+|   O   |   X   |   X   |
+|       |       |       |
++-------+-------+-------+
+|       |       |       |
+|   7   |   O   |   9   |
+|       |       |       |
++-------+-------+-------+
+Enter your move: 7
++-------+-------+-------+
+|       |       |       |
+|   O   |   X   |   X   |
+|       |       |       |
++-------+-------+-------+
+|       |       |       |
+|   O   |   X   |   X   |
+|       |       |       |
++-------+-------+-------+
+|       |       |       |
+|   O   |   O   |   9   |
+|       |       |       |
++-------+-------+-------+
+You won!
+
+
+Conditions
+Implémentez les fonctionnalités suivantes :
+
+le tableau doit être stocké sous la forme d'une liste à trois éléments, tandis que chaque élément est une autre liste à trois éléments (les listes intérieures représentent des lignes) afin que tous les carrés soient accessibles à l'aide de la syntaxe suivante :
+
+tableau[ligne][colonne]
+
+
+chacun des éléments de la liste interne peut contenir « O », « X » ou un chiffre représentant le numéro du carré (un tel carré est considéré comme libre)
+l'apparence du tableau doit être exactement la même que celle présentée dans l'exemple.
+implémenter les fonctions définies pour vous dans l'éditeur.
+
+Le dessin d'un nombre entier aléatoire peut être effectué en utilisant une fonction C++ appelée rand (srand).
+
+Exemple:
+
+v1 = rand() % 100;         // v1 in the range 0 to 99
+v2 = rand() % 100 + 1;     // v2 in the range 1 to 100
+v3 = rand() % 30 + 1985;   // v3 in the range 1985-2014 
+
+/* rand example: guess the number */
+#include <stdio.h>      /* printf, scanf, puts, NULL */
+#include <stdlib.h>     /* srand, rand */
+#include <time.h>       /* time */
+
+int main ()
+{
+  int iSecret, iGuess;
+
+  /* initialize random seed: */
+  srand (time(NULL));
+
+  /* generate secret number between 1 and 10: */
+  iSecret = rand() % 10 + 1;
+
+  do {
+    printf ("Guess the number (1 to 10): ");
+    scanf ("%d",&iGuess);
+    if (iSecret<iGuess) puts ("The secret number is lower");
+    else if (iSecret>iGuess) puts ("The secret number is higher");
+  } while (iSecret!=iGuess);
+
+  puts ("Congratulations!");
+  return 0;
+}
+
+
+

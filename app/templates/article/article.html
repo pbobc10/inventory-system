@@ -1,0 +1,57 @@
+<div class="row">
+    <div class="col-md-3">
+        <div class="card shadow-sm">
+            <h5 class="card-header">Add Product</h5>
+            <div class="card-body">
+                <form  method="POST" >
+                    <div class="form-group">
+                        <label for="selectCategorie">Category</label>
+                        <select class="custom-select " name="categorie_id" id="selectCategorie" required>
+                            <option selected disabled value="">Categorie Article</option>
+                            {% for catego in categories %}
+                            <option value="{{catego.id}}" class="text-capitalize">{{catego.description}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="form-group ">
+                        <label for="article">Product Name</label>
+                                <input type="text" class="form-control  text-capitalize" id="article" name="article" placeholder="article"  aria-describedby="article" required>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary btn-sm">Submit</button>
+                </form>
+            </div>
+          </div>
+    </div>
+    <div class="col-md-9">
+        <div class="card shadow-sm">
+            <h5 class="card-header">All Product</h5>
+            <div class="card-body">
+                <table class="table" id="myTable">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Article</th> 
+                            <th>Categorie</th> 
+                            <th>Action</th> 
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for article in articles %}
+                        <tr>
+                        <th scope="row">{{ article.id }}</th> 
+                            <td class="text-capitalize">{{ article.article }}</td>
+                            <td class="text-capitalize">{{ article.categorie }}</td>
+                            <td>
+                                <a href="/article/{{article.id}}/update" class="badge badge-secondary"> update</a>
+                                <a href="/article/{{article.id}}/delete" class="badge badge-danger btn-delete">delete</a>
+                            </td>
+                        </tr>
+                        {% endfor %} 
+                    </tbody>
+                  </table>
+            </div>
+          </div>
+    </div>
+</div>

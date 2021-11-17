@@ -1,0 +1,114 @@
+{% extends "base.html" %}
+{% block title %} register {% endblock %}
+{% block page_content %}
+<!-- <div class="page-header">
+    <h3>Register</h3>
+</div> -->
+<br>
+<div class="row">
+
+    <div class="col-md-12">
+        <div class="card shadow-sm">
+            <div class="card-header">
+                <h5 style="display: inline;">All User</h5>
+
+                <!-- Button trigger modal -->
+                <span type="button" class="btn btn-dark me-md-2 btn-sm float-end" data-bs-toggle="modal"
+                    data-bs-target="#userRegisterModal" style="display: inline;">
+                    Add User
+                </span>
+
+
+            </div>
+            <div class="card-body">
+                <table class="table" id="myTable">
+                    <thead>
+                        <tr>
+                            <th>Utilisateur</th>
+                            <th>Nom</th>
+                            <th>Prenom</th>
+                            <th>Role</th>
+                            <th>Creation Date</th>
+                            <th>Update Date</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for user in all_users %}
+                        <tr>
+                            <th scope="row">{{ user.username }}</th>
+                            <td class="text-capitalize">{{ user.nom }}</td>
+                            <td class="text-capitalize">{{ user.prenom }}</td>
+                            <td class="text-capitalize">{{user.role.name}}</td>
+                            <td>{{ user.creation_date }}</td>
+                            <td>{{ user.update_date }}</td>
+                            <td>
+                                <a href="{{url_for('auth.update_user',id=user.id)}}" class="badge bg-secondary" >
+                                    update</a>
+                                <a href="{{   url_for('auth.delete_user',id=user.id ) }}"
+                                    class="badge bg-danger">delete</a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <!-- modal add user -->
+        <div class="modal" tabindex="-1" id="userRegisterModal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <!-- modal header -->
+                    <div class="modal-header">
+                        <h5 class="modal-title">Add User</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <!-- modal body -->
+                    <div class="modal-body">
+                        <form method="POST" action="{{ url_for('auth.add_user')}}">
+                            {{ form.hidden_tag() }}
+                            <div class="form-group">
+                                <label class="form-label" for="username">Username:</label>
+                                {{ form.username(class="form-control",placeholder="username") }}
+                            </div>
+
+                            <div class="form-group text">
+                                <label class="form-label" for="nom">Nom:</label>
+                                {{ form.nom(class="form-control text-capitalize" ,placeholder="nom" ) }}
+                            </div>
+
+                            <div class="form-group text">
+                                <label class="form-label" for="prenom">Prenom:</label>
+                                {{ form.prenom(class="form-control text-capitalize" ,placeholder="prenom") }}
+                            </div>
+                            <div class="form-group text">
+                                <label class="form-label" for="prenom">User Role:</label>
+                                {{ form.user_role(class="form-select")}}
+                            </div>
+                            <div class="form-group text">
+                                <label class="form-label" for="password">Password:</label>
+                                {{ form.password(class="form-control" ,placeholder="password") }}
+                            </div>
+                            <div class="form-group text">
+                                <label class="form-label" for="password_2">Confirm Password:</label>
+                                {{ form.password_2(class="form-control " ,placeholder="password") }}
+                            </div>
+                            <!-- modal footer -->
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                {{ form.submit(class="btn btn-primary btn-sm") }}
+                            </div>
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+{% endblock %}

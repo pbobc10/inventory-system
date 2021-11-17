@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block title %} login {% endblock%}
+{% block page_content %}
+<div class="page-header">
+    <h3> log in</h3>
+</div>
+
+<div class="col-md-4">
+
+    <form method="POST" >
+        {{ form.hidden_tag() }}
+        <div class="form-group">
+            {{ form.username.label }}
+            {{ form.username(class="form-control",placeholder="Enter Your Username") }}
+        </div>
+        <div class="form-group">
+            {{ form.password.label }}
+            {{ form.password(class="form-control",placeholder="Enter Your Password") }}
+        </div>
+        <div class="form-check">
+            {{ form.remember_me(class="form-check-input") }}
+            {{ form.remember_me.label }}
+        </div>
+        
+        {{ form.submit(class="btn btn-primary btn-block") }}
+    </form>
+
+    <br>
+    <p>
+        New user?
+        <a href="{{ url_for('auth.add_user') }}"> Click here to register
+        </a>
+    </p>
+</div>
+
+{% endblock %}
