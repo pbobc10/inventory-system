@@ -10,11 +10,11 @@ auth_blueprint = Blueprint(
     'auth', __name__, template_folder='../templates/auth')
 
 
+# @auth_blueprint.route('/', methods=['GET', 'POST'])
+# def index():
+#     return redirect(url_for('login'))
+
 @auth_blueprint.route('/', methods=['GET', 'POST'])
-def index():
-    return '<h1>Hello World</h1>'
-
-
 @auth_blueprint.route('/login', methods=['GET', 'POST'])
 def login():
     form = LoginForm()
@@ -25,6 +25,7 @@ def login():
             next = request.args.get('next')
             if next is None or not next.startswith('/'):
                 next = url_for('auth.display_users')
+                flash('You are log in.')
             return redirect(next)
 
         flash('Invalid username or password.')
@@ -36,7 +37,7 @@ def login():
 def logout():
     logout_user()
     flash('You have been logged out.')
-    return redirect(url_for('auth.index'))
+    return redirect(url_for('auth.login'))
 
 
 @auth_blueprint.route('/users', methods=['GET', 'POST'])

@@ -21,7 +21,7 @@
 
             </div>
             <div class="card-body">
-                <table class="table" id="myTable">
+                <table id="myTable" class="table" >
                     <thead>
                         <tr>
                             <th>Utilisateur</th>
@@ -46,7 +46,7 @@
                                 <a href="{{url_for('auth.update_user',id=user.id)}}" class="badge bg-secondary" >
                                     update</a>
                                 <a href="{{   url_for('auth.delete_user',id=user.id ) }}"
-                                    class="badge bg-danger">delete</a>
+                                    class="badge bg-danger btn-delete">delete</a>
                             </td>
                         </tr>
                         {% endfor %}

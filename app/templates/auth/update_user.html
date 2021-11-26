@@ -11,34 +11,37 @@
             <div class="card-body">
                 <form method="POST">
                     {{ form.hidden_tag() }}
-                    <div class="form-group">
-                        <label class="form-label" for="username">Username:</label>
-                        {{
-                        form.username(class="form-control",placeholder="username",value=user.username,readonly=true)
-                        }}
+                    <div class="p-4">
+                        <div class="form-group">
+                            <label class="form-label" for="username">Username:</label>
+                            {{
+                            form.username(class="form-control",placeholder="username",value=user.username,disabled="disabled")
+                            }}
+                        </div>
+    
+                        <div class="form-group text">
+                            <label class="form-label" for="nom">Nom:</label>
+                            {{ form.nom(class="form-control text-capitalize"
+                            ,placeholder="nom",value=user.nom ) }}
+                        </div>
+    
+                        <div class="form-group text">
+                            <label class="form-label" for="prenom">Prenom:</label>
+                            {{ form.prenom(class="form-control text-capitalize"
+                            ,placeholder="prenom",value=user.prenom) }}
+                        </div>
+    
+                        <div class="form-group text">
+                            <label class="form-label" for="prenom">User Role:</label>
+                            {{ form.user_role(class="form-select",value=user.role)}}
+                        </div>
+    
+                        <br>
+                        <a href="{{url_for('auth.display_users')}}" class="btn btn-secondary btn-sm">Close</a>
+    
+                        {{ form.submit(class="btn btn-primary btn-sm") }}
                     </div>
-
-                    <div class="form-group text">
-                        <label class="form-label" for="nom">Nom:</label>
-                        {{ form.nom(class="form-control text-capitalize"
-                        ,placeholder="nom",value=user.nom ) }}
-                    </div>
-
-                    <div class="form-group text">
-                        <label class="form-label" for="prenom">Prenom:</label>
-                        {{ form.prenom(class="form-control text-capitalize"
-                        ,placeholder="prenom",value=user.prenom) }}
-                    </div>
-
-                    <div class="form-group text">
-                        <label class="form-label" for="prenom">User Role:</label>
-                        {{ form.user_role(class="form-select",value=user.role)}}
-                    </div>
-
-                    <br>
-                    <a href="{{url_for('auth.display_users')}}" class="btn btn-secondary btn-sm">Close</a>
-
-                    {{ form.submit(class="btn btn-primary btn-sm") }}
+                    
 
                 </form>
             </div>

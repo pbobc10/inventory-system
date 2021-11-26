@@ -1,36 +1,84 @@
-{% extends "base.html" %}
-{% block title %} login {% endblock%}
-{% block page_content %}
-<div class="page-header">
-    <h3> log in</h3>
-</div>
+<!DOCTYPE html>
+<html lang="en">
 
-<div class="col-md-4">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login Form</title>
+    <!-- bootstrap CSS -->
+    <link rel="stylesheet" href="{{url_for('static',filename='css/bootstrap.min.css') }}" />
+    <!-- site css -->
+    <link rel="stylesheet" href="{{ url_for('static',filename='css/dashboard.css')}}" />
+    <!-- datatables css -->
+    <link rel="stylesheet" href="{{ url_for('static',filename='css/dataTables.bootstrap5.min.css') }}" />
 
-    <form method="POST" >
-        {{ form.hidden_tag() }}
-        <div class="form-group">
-            {{ form.username.label }}
-            {{ form.username(class="form-control",placeholder="Enter Your Username") }}
+    <style>
+        .bd-placeholder-img {
+            font-size: 1.125rem;
+            text-anchor: middle;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        @media (min-width: 768px) {
+            .bd-placeholder-img-lg {
+                font-size: 3.5rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid vh-100" style="margin-top: 10px">
+        <div class="" style="margin-top: 20px">
+            <div class="rounded d-flex justify-content-center">
+                <div class="col-md-4 col-sm-12 shadow-lg p-5 bg-light">
+                    <div class="text-center">
+                        <h3 class="text-primary">Sign In</h3>
+                    </div>
+                    <form method="POST">
+                        {{ form.hidden_tag() }}
+                        <div class="p-4">
+                            <div class="input-group mb-3">
+                                <span class="input-group-text bg-primary">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-plus-fill text-white" viewBox="0 0 16 16">
+                                        <path d="M1 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
+                                        <path fill-rule="evenodd" d="M13.5 5a.5.5 0 0 1 .5.5V7h1.5a.5.5 0 0 1 0 1H14v1.5a.5.5 0 0 1-1 0V8h-1.5a.5.5 0 0 1 0-1H13V5.5a.5.5 0 0 1 .5-.5z"/>
+                                      </svg>
+                                </span>
+                                {{ form.username(class="form-control",placeholder="Username")
+                                }}
+                            </div>
+                            <div class="input-group mb-3">
+                                <span class="input-group-text bg-primary">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-key-fill text-white" viewBox="0 0 16 16">
+                                        <path d="M3.5 11.5a3.5 3.5 0 1 1 3.163-5H14L15.5 8 14 9.5l-1-1-1 1-1-1-1 1-1-1-1 1H6.663a3.5 3.5 0 0 1-3.163 2zM2.5 9a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"/>
+                                      </svg>
+                                </span>
+                                {{ form.password(class="form-control",placeholder="Password")
+                                }}
+                            </div>
+                            <div class="form-check">
+                                {{ form.remember_me(class="form-check-input") }} {{
+                                form.remember_me.label }}
+                            </div>
+                            
+                            <div class="input-group mb-3">
+                                {{ form.submit(class="btn btn-primary  text-center mt-2") }}
+                            </div>
+                        </div>
+                       
+                        
+                    </form>
+                </div>
+            </div>
         </div>
-        <div class="form-group">
-            {{ form.password.label }}
-            {{ form.password(class="form-control",placeholder="Enter Your Password") }}
-        </div>
-        <div class="form-check">
-            {{ form.remember_me(class="form-check-input") }}
-            {{ form.remember_me.label }}
-        </div>
-        
-        {{ form.submit(class="btn btn-primary btn-block") }}
-    </form>
+    </div>
+    <!-- bootstrap -->>
+    <script src="{{url_for('static',filename='/js/bootstrap.min.js')}}"></script>
+</body>
 
-    <br>
-    <p>
-        New user?
-        <a href="{{ url_for('auth.add_user') }}"> Click here to register
-        </a>
-    </p>
-</div>
-
-{% endblock %}
+</html>
