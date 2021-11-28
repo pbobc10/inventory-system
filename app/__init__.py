@@ -13,7 +13,7 @@ db = SQLAlchemy()
 login_manager = LoginManager()
 #The login_view attribute of the LoginManager object sets the endpoint for the login page
 #Flask-Login will redirect to the login page when an anonymous user tries to access a protected page
-login_manager.login_view = "auth.index"
+login_manager.login_view = "auth.login"
 
 #factory function
 def create_app(config_name):
@@ -29,6 +29,8 @@ def create_app(config_name):
     # attach blueprint
     from app.controllers.auth import auth_blueprint
     from app.controllers.error import error_blueprint
+    from app.controllers.categorieController import categorie_blueprint
+    app.register_blueprint(categorie_blueprint,url_prefix='/categorie')
     app.register_blueprint(auth_blueprint,url_prefix='/auth')
     app.register_blueprint(error_blueprint,url_prefix='/error')
 

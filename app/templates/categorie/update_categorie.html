@@ -1,0 +1,22 @@
+{% extends 'base.html' %} {% block title %} update Categorie {% endblock %} {%
+block page_content %}
+<div class="row d-flex justify-content-center">
+  <div class="col-md-9">
+    <form method="POST">
+      {{ form.hidden_tag() }}
+      <div class="p-4">
+        <div class="form-group text">
+          <label class="form-label" for="username">name:</label>
+          {{
+          form.username(class="form-control",placeholder="username",value=categorie.rname)
+          }}
+        </div>
+        <br>
+                        <a href="{{url_for('categorie.display_categories')}}" class="btn btn-secondary btn-sm">Close</a>
+    
+                        {{ form.submit(class="btn btn-primary btn-sm") }}
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}

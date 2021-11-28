@@ -25,10 +25,10 @@ def login():
             next = request.args.get('next')
             if next is None or not next.startswith('/'):
                 next = url_for('auth.display_users')
-                flash('You are log in.')
+                flash('You are log in.','message')
             return redirect(next)
 
-        flash('Invalid username or password.')
+        flash('Invalid username or password.','error')
     return render_template('login.html', form=form)
 
 
@@ -36,7 +36,7 @@ def login():
 @login_required
 def logout():
     logout_user()
-    flash('You have been logged out.')
+    # flash('You have been logged out.')
     return redirect(url_for('auth.login'))
 
 
@@ -55,16 +55,16 @@ def add_user():
     if form.validate_on_submit():
         # checked username for uniqueness after the form validation is complite
         if User.query.filter_by(username=form.username.data).first():
-            flash('Username already in use.')
+            flash('Username already in use.','error')
             return redirect(url_for('auth.display_users'))
 
         user = User(username=form.username.data, nom=form.nom.data, prenom=form.prenom.data,
                     password=form.password.data, role=Role.query.filter_by(name=form.user_role.data).first())
         db.session.add(user)
         db.session.commit()
-        flash('user Register.')
+        flash('user Register.','message')
     if form.errors:
-        flash(form.errors, 'danger')
+        flash(form.errors, 'error')
     return redirect(url_for('auth.display_users'))
 
 

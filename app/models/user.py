@@ -34,7 +34,7 @@ class User(UserMixin, db.Model):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         if self.role is None:
-            self.role = Role.query.filter_by(default=True).first()
+            self.role = role.Role.query.filter_by(default=True).first()
 
     # To simplify the implementation of roles and permissions, a helper method can be added
     # to the User model that checks whether users have a given permission in the role they have been assigned

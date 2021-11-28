@@ -1,51 +1,79 @@
-{% extends 'base.html' %}
-{% block title %} categorie {% endblock %}
-{% block page_content %}
+{% extends 'base.html' %} {% block title %} categorie {% endblock %} {% block
+page_content %}
+<br>
 <div class="row">
-    <div class="col-md-3">
-        <div class="card shadow-sm">
-            <h5 class="card-header">Add Category</h5>
-            <div class="card-body">
-                <form  method="POST" >
-                    {{ form.hidden_tag()}}
-                    <div class="form-group">
-                        <label class="form-label" for="name">Category</label>
-                        {{  form.name(class="form-control text-capitalize" , placeholder="categorie" ) }}
-        
-                    </div>
-                    {{  form.submit(class="btn btn-primary btn-sm") }}
-                    
-                </form>
-            </div>
-          </div>
-    </div>
-    <div class="col-md-9">
+    <div class="col-md-12">
         <div class="card">
-            <h5 class="card-header">All Category</h5>
+            <div class="card-header">
+                <h5 style="display: inline;">All Categorie</h5>
+                <!-- Button trigger modal -->
+                <span type="button" class="btn btn-dark me-md-2 btn-sm float-end" data-bs-toggle="modal"
+                    data-bs-target="#categorieRegisterModal" style="display: inline;">
+                    Add Categorie
+                </span>
+            </div>
             <div class="card-body">
                 <table class="table" id="myTable">
                     <thead>
                         <tr>
                             <th>#</th>
-                            <th>Categorie</th> 
-                            <th>Action</th> 
+                            <th>Categorie</th>
+                            <th>Creation Date</th>
+                            <th>Update Date</th>
+                            <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {% for categorie in categories %}
+                        {% for categorie in all_categories %}
                         <tr>
-                        <th scope="row">{{ categorie.id }}</th> 
-                            <td class="text-capitalize">{{ categorie.description }}</td>
+                            <th scope="row">{{ categorie.id }}</th>
+                            <td class="text-capitalize">{{ categorie.name }}</td>
+                            <td class="text-capitalize">{{ categorie.creation_date }}</td>
+                            <td class="text-capitalize">{{ categorie.update_date }}</td>                           
                             <td>
-                                <a href="/categorie/{{categorie.id}}/update" class="badge badge-secondary"> update</a>
-                                <a href="/categorie/{{categorie.id}}/delete" class="badge badge-danger btn-delete">delete</a>
+                                <a href="/update/categorie/{{categorie.id}}" class="badge bg-secondary">
+                                    update</a>
+                                <a href="/delete/categorie/{{categorie.id}}"
+                                    class="badge bg-danger btn-delete">delete</a>
                             </td>
+
                         </tr>
-                        {% endfor %} 
+                        {% endfor %}
                     </tbody>
-                  </table>
+                </table>
             </div>
-          </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <!-- modal add user -->
+        <div class="modal" tabindex="-1" id="categorieRegisterModal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <!-- modal header -->
+                    <div class="modal-header">
+                        <h5 class="modal-title">Add User</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <!-- modal body -->
+                    <div class="modal-body">
+                        <form method="POST" action="{{ url_for('categorie.add_categorie')}}">
+                            {{ form.hidden_tag() }}
+                            <div class="form-group">
+                                <label class="form-label" for="name">Name:</label>
+                                {{ form.name(class="form-control",placeholder="name") }}
+                            </div>
+                            <!-- modal footer -->
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                {{ form.submit(class="btn btn-primary btn-sm") }}
+                            </div>
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
     </div>
 </div>
 {% endblock %}
