@@ -1,4 +1,5 @@
 from flask import request, render_template, url_for, Blueprint, flash, redirect, abort
+import flask
 from flask_login import login_required, login_user, logout_user
 from ..models.user import User
 from ..models.role import Permission, Role
@@ -25,10 +26,13 @@ def login():
             next = request.args.get('next')
             if next is None or not next.startswith('/'):
                 next = url_for('auth.display_users')
-                flash('You are log in.','message')
+                flash('You are log in.','success')
             return redirect(next)
+        else:
+            flash('Invalid username or password.','warning')
 
-        flash('Invalid username or password.','error')
+    if form.errors:
+        flash(form.errors,'danger')
     return render_template('login.html', form=form)
 
 
@@ -55,27 +59,24 @@ def add_user():
     if form.validate_on_submit():
         # checked username for uniqueness after the form validation is complite
         if User.query.filter_by(username=form.username.data).first():
-            flash('Username already in use.','error')
+            flash('Username already in use.','warning')
             return redirect(url_for('auth.display_users'))
 
         user = User(username=form.username.data, nom=form.nom.data, prenom=form.prenom.data,
                     password=form.password.data, role=Role.query.filter_by(name=form.user_role.data).first())
         db.session.add(user)
         db.session.commit()
-        flash('user Register.','message')
+        flash('user Registered.','success')
     if form.errors:
-        flash(form.errors, 'error')
+        flash(form.errors, 'danger')
     return redirect(url_for('auth.display_users'))
 
 
 @auth_blueprint.route('/update/user/<int:id>', methods=['GET', 'POST'])
 @login_required
 def update_user(id):
-    user = User.query.filter_by(id=id).first()
+    user = User.query.get_or_404(id)
     form = UpdateRegistrationForm()
-
-    if user is None:
-        abort(404)
 
     if form.validate_on_submit():
         user.nom = form.nom.data
@@ -83,6 +84,7 @@ def update_user(id):
         user.password = form.username.data  # reset password with the username
         user.role = Role.query.filter_by(name=form.user_role.data).first()
         db.session.commit()
+        flash('user updated','success')
         return redirect(url_for('auth.display_users'))
 
     if form.errors:
@@ -94,9 +96,10 @@ def update_user(id):
 @auth_blueprint.route('/delete/user/<int:id>', methods=['GET', 'POST'])
 @login_required
 def delete_user(id):
-    user = User.query.filter_by(id=id).first()
+    user = User.query.get_or_404(id)
     db.session.delete(user)
     db.session.commit()
+    flash('user deleted','success')
     return redirect(url_for('auth.display_users'))
 
 

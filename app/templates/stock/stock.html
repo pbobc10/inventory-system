@@ -1,0 +1,141 @@
+{% extends 'base.html' %} {% block title %} stock {% endblock %} {% block
+page_content %}
+<br />
+<div class="row">
+  <div class="col-md-12">
+    <div class="card">
+      <div class="card-header">
+        <h5 style="display: inline">All Stock</h5>
+        <!-- Button trigger modal -->
+        <span
+          type="button"
+          class="btn btn-dark me-md-2 btn-sm float-end"
+          data-bs-toggle="modal"
+          data-bs-target="#stockRegisterModal"
+          style="display: inline"
+        >
+          Add Stock
+        </span>
+      </div>
+      <div class="card-body">
+        <table class="table" id="myTable">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Article</th>
+              <th>In Stock</th>
+              <th>Alerte</th>
+              <th>Creation Date</th>
+              <th>Update Date</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for stock in stocks %}
+            <tr>
+              <td scope="row">{{ stocks.index(stock)+1 }}</td>
+              <td class="text-capitalize">{{ stock.name }}</td>
+              <td class="text-capitalize">{{ stock.quantite }}</td>
+              <td class="text-capitalize">{{ stock.alerte }}</td>
+              <td class="text-capitalize">{{ stock.creation_date }}</td>
+              <td class="text-capitalize">{{ stock.update_date }}</td>
+              <td>
+                <a
+                  href="{{ url_for('stock.update_stock',id=stock.id) }}"
+                  class="badge bg-secondary"
+                >
+                  update</a
+                >
+                <a
+                  href="{{ url_for('stock.delete_stock',id=stock.id) }}"
+                  class="badge bg-danger btn-delete"
+                  >delete</a
+                >
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <!-- modal add user -->
+    <div class="modal" tabindex="-1" id="stockRegisterModal">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <!-- modal header -->
+          <div class="modal-header">
+            <h5 class="modal-title">Add Stock</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+            ></button>
+          </div>
+          <!-- modal body -->
+          <div class="modal-body">
+            <form method="POST" action="{{ url_for('stock.add_stock')}}">
+              {{ form.hidden_tag() }}
+              <div class="form-group">
+                <label class="form-label" for="name">Categorie</label>
+                {{ form.categorie(class="form-select") }}
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="name">Article</label>
+                {{ form.article(class="form-select") }}
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="name">Quantite</label>
+                {{ form.quantite(class="form-control",placeholder="quantite") }}
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="name">Alerte</label>
+                {{ form.alerte(class="form-control",placeholder="alerte") }}
+              </div>
+
+              <!-- modal footer -->
+              <div class="modal-footer">
+                <button
+                  type="button"
+                  class="btn btn-secondary"
+                  data-bs-dismiss="modal"
+                >
+                  Close
+                </button>
+                {{ form.submit(class="btn btn-primary btn-sm") }}
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+  let categorie_select = document.getElementById("categorie");
+  let article_select = document.getElementById("article");
+
+  categorie_select.onchange = function () {
+    let categorie = categorie_select.value;
+
+    fetch("/stock/articles/" + categorie).then(function(response) {
+      response.json().then(function (data) {
+        let optionHTML = "";
+        
+        for (let article of data.articles) {
+            if(article.name === 'Select a Categorie'){
+          optionHTML +=
+            '<option selected disabled value="' + article.id + '">' + article.name + "</option>";
+            }
+            else{
+                optionHTML +=
+            '<option value="' + article.id + '">' + article.name + "</option>"; 
+            }
+        }
+        article_select.innerHTML = optionHTML;
+      });
+    });
+  }
+</script>
+{% endblock %}

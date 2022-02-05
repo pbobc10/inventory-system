@@ -1,0 +1,31 @@
+{% extends 'base.html' %} {% block title %} update Categorie {% endblock %} {%
+    block page_content %}
+    <br />
+    <div class="row d-flex justify-content-center">
+      <div class="col-md-9">
+        <h4 class="mb-3">Update Article</h4>
+        <form method="POST">
+            {{ form.hidden_tag() }}
+            <div class="form-group">
+                <label class="form-label" for="categorie">Categorie:</label>
+                {{ form.categorie(class="form-control",value=article.categorie.id) }}
+            </div>
+            <div class="form-group">
+                <label class="form-label" for="name">Article:</label>
+                {{ form.name(class="form-control",placeholder="article",value=article.name) }}
+            </div>
+          <br />
+          <a href="{{url_for('article.display_articles')}}" class="btn btn-secondary btn-sm">Close</a>
+    
+          {{ form.submit(class="btn btn-primary btn-sm") }}
+        </form>
+      </div>
+    </div>
+    <script>
+     var selectElement = function(id,valueToSelect){
+        var element = document.getElementById(id)
+        element.value=valueToSelect
+    }
+    selectElement('categorie','{{article.categorie.id}}')
+    </script>
+    {% endblock %}

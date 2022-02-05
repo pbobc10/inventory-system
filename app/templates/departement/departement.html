@@ -1,15 +1,15 @@
-{% extends 'base.html' %} {% block title %} Article {% endblock %} {% block
+{% extends 'base.html' %} {% block title %} Departement {% endblock %} {% block
     page_content %}
     <br>
     <div class="row">
         <div class="col-md-12">
             <div class="card">
                 <div class="card-header">
-                    <h5 style="display: inline;">All Article</h5>
+                    <h5 style="display: inline;">All Departement</h5>
                     <!-- Button trigger modal -->
                     <span type="button" class="btn btn-dark me-md-2 btn-sm float-end" data-bs-toggle="modal"
-                        data-bs-target="#articleRegisterModal" style="display: inline;">
-                        Add Article
+                        data-bs-target="#departementRegisterModal" style="display: inline;">
+                        Add Departement
                     </span>
                 </div>
                 <div class="card-body">
@@ -17,25 +17,23 @@
                         <thead>
                             <tr>
                                 <th>#</th>
-                                <th>Categorie</th>
-                                <th>Article</th>
+                                <th>Departement</th>
                                 <th>Creation Date</th>
                                 <th>Update Date</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
-                            {% for article in articles %}
+                            {% for departement in all_departements %}
                             <tr>
-                                <th scope="row">{{ article.id }}</th>
-                                <td class="text-capitalize">{{ article.categorie.name }}</td>
-                                <td class="text-capitalize">{{ article.name }}</td>
-                                <td class="text-capitalize">{{ article.creation_date }}</td>
-                                <td class="text-capitalize">{{ article.update_date }}</td>                           
+                                <th scope="row">{{ departement.id }}</th>
+                                <td class="text-capitalize">{{ departement.name }}</td>
+                                <td class="text-capitalize">{{ departement.creation_date }}</td>
+                                <td class="text-capitalize">{{ departement.update_date }}</td>                           
                                 <td>
-                                    <a href="{{ url_for('article.update_article',id=article.id) }}" class="badge bg-secondary">
+                                    <a href="{{ url_for('departement.update_departement',id=departement.id) }}" class="badge bg-secondary">
                                         update</a>
-                                    <a href="{{ url_for('article.delete_article',id=article.id) }}"
+                                    <a href="{{ url_for('departement.delete_departement',id=departement.id) }}"
                                         class="badge bg-danger btn-delete">delete</a>
                                 </td>
     
@@ -48,25 +46,21 @@
         </div>
         <div class="col-md-3">
             <!-- modal add user -->
-            <div class="modal" tabindex="-1" id="articleRegisterModal">
+            <div class="modal" tabindex="-1" id="departementRegisterModal">
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <!-- modal header -->
                         <div class="modal-header">
-                            <h5 class="modal-title">Add Categorie</h5>
+                            <h5 class="modal-title">Add Departement</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                         </div>
                         <!-- modal body -->
                         <div class="modal-body">
-                            <form method="POST" action="{{ url_for('article.add_article')}}">
+                            <form method="POST" action="{{ url_for('departement.add_departement')}}">
                                 {{ form.hidden_tag() }}
                                 <div class="form-group">
-                                    <label class="form-label" for="name">Categorie:</label>
-                                    {{ form.categorie(class="form-control") }}
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-label" for="name">Article:</label>
-                                    {{ form.name(class="form-control",placeholder="article") }}
+                                    <label class="form-label" for="name">Name:</label>
+                                    {{ form.name(class="form-control",placeholder="name") }}
                                 </div>
                                 <!-- modal footer -->
                                 <div class="modal-footer">

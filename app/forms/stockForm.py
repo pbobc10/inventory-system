@@ -1,18 +1,42 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField, SelectField, IntegerField
-from wtforms.validators import DataRequired, Length
-from wtforms import ValidationError
-from ..models.stock import Stock
+from wtforms.validators import InputRequired, NumberRange
+from ..models.categorie import Categorie
+from decimal import Decimal
 
 
-HOUR_CHOICES = [('1', '8am'), ('2', '10am')]
+# Populate Select Categorie Field
+class Category(SelectField):
+    def iter_choices(self):
+        categories =[('','Select a Categorie')]+ [(el.id, el.name) for el in Categorie.query.all()]
+        for value, label in categories:
+            yield(value, label, self.coerce(value) == self.data)
+
+    # def pre_validate(self, form):
+    #     for v, _ in [(el.id, el.name) for el in Categorie.query.all()]:
+    #         if self.data == v:
+    #             break
+    #         else:
+    #             raise ValueError(self.gettext('Not a good Categorie'))
 
 
-class StockForm(FlaskForm):
-    article = SelectField('Article', validators=[
-                          DataRequired()], choices=HOUR_CHOICES)
-    quantity = IntegerField('Quantity', validators=DataRequired())
-    alerte = IntegerField('Alerte', validators=DataRequired())
+class RegistrationForm(FlaskForm):
+    categorie = Category('Categorie', validators=[
+        InputRequired()])
+    article = SelectField('Article', validators=[InputRequired()],coerce=int,validate_choice=False,)
+    quantite = IntegerField('Quantity', validators=[InputRequired(), NumberRange(
+        min=Decimal('0'), message='The minimun value is 0')])
+    alerte = IntegerField('Alerte', validators=[InputRequired(), NumberRange(
+        min=Decimal('0'), message='The minimun value is 0')])
+    submit = SubmitField('Register')
 
-    def validate_alerte(self, field):
-        pass
+
+class UpdateForm(FlaskForm):
+    categorie = Category('Categorie', validators=[
+        InputRequired()])
+    article = SelectField('Article', validators=[InputRequired()],coerce=int,validate_choice=False,)
+    quantite = IntegerField('Quantity', validators=[InputRequired(), NumberRange(
+        min=Decimal('0'), message='The minimun value is 0')])
+    alerte = IntegerField('Alerte', validators=[InputRequired(), NumberRange(
+        min=Decimal('0'), message='The minimun value is 0')])
+    submit = SubmitField('Register')

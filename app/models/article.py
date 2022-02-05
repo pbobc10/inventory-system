@@ -12,6 +12,8 @@ class Article(db.Model):
     name = db.Column(db.String(64), unique=True, index=True, nullable=False)
     categorie_id = db.Column(db.Integer, db.ForeignKey('categories.id'))
     stocks = db.relationship('Stock', backref='article', lazy='dynamic')
+    creation_date = db.Column(db.DateTime)
+    update_date = db.Column(db.DateTime)
     transactions = db.relationship(
         'Transaction', backref='article', lazy='dynamic')
 

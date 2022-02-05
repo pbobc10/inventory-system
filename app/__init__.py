@@ -27,9 +27,15 @@ def create_app(config_name):
 
     # attach routes and custom error pages here
     # attach blueprint
-    from app.controllers.auth import auth_blueprint
-    from app.controllers.error import error_blueprint
+    from app.controllers.authController import auth_blueprint
+    from app.controllers.errorController import error_blueprint
     from app.controllers.categorieController import categorie_blueprint
+    from app.controllers.articleController import article_blueprint
+    from app.controllers.departementController import departement_blueprint
+    from app.controllers.stockController import stock_blueprint
+    app.register_blueprint(stock_blueprint,url_prefix='/stock')
+    app.register_blueprint(departement_blueprint,url_prefix='/departement')
+    app.register_blueprint(article_blueprint,url_prefix='/article')
     app.register_blueprint(categorie_blueprint,url_prefix='/categorie')
     app.register_blueprint(auth_blueprint,url_prefix='/auth')
     app.register_blueprint(error_blueprint,url_prefix='/error')

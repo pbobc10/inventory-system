@@ -31,9 +31,9 @@ page_content %}
                             <td class="text-capitalize">{{ categorie.creation_date }}</td>
                             <td class="text-capitalize">{{ categorie.update_date }}</td>                           
                             <td>
-                                <a href="/update/categorie/{{categorie.id}}" class="badge bg-secondary">
+                                <a href="{{ url_for('categorie.update_categorie',id=categorie.id) }}" class="badge bg-secondary">
                                     update</a>
-                                <a href="/delete/categorie/{{categorie.id}}"
+                                <a href="{{ url_for('categorie.delete_categorie',id=categorie.id) }}"
                                     class="badge bg-danger btn-delete">delete</a>
                             </td>
 
@@ -51,7 +51,7 @@ page_content %}
                 <div class="modal-content">
                     <!-- modal header -->
                     <div class="modal-header">
-                        <h5 class="modal-title">Add User</h5>
+                        <h5 class="modal-title">Add Categorie</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                     </div>
                     <!-- modal body -->

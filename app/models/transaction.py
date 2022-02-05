@@ -2,7 +2,7 @@
 # Import the database object (db) from the main application module
 
 from app import db
-from ..models import article,direction,user
+from ..models import article,departement,user
 
 
 
@@ -12,10 +12,10 @@ class Transaction(db.Model):
     quantite = db.Column(db.Integer, default=0)
     receptionnaire = db.Column(db.String(64), nullable=False)
     requisition = db.Column(db.Boolean, default=False)
-    creation_date = db.Column(db.DateTime, nullable=False)
-    update_date = db.Column(db.DateTime, nullable=False)
+    creation_date = db.Column(db.DateTime)
+    update_date = db.Column(db.DateTime)
     article_id = db.Column(db.Integer, db.ForeignKey('articles.id'))
-    direction_id = db.Column(db.Integer, db.ForeignKey('directions.id'))
+    departement_id = db.Column(db.Integer, db.ForeignKey('departements.id'))
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
 
     def __repr__(self):

@@ -8,7 +8,7 @@ from ..forms.categorieForm import RegistrationForm,UpdateRegistrationForm
 from app import db
 
 
-categorie_blueprint = Blueprint('categorie','__name__',template_folder='../templates/categorie')
+categorie_blueprint = Blueprint('categorie',__name__,template_folder='../templates/categorie')
 
 @categorie_blueprint.route('/categories',methods=['GET','POST'])
 @login_required
@@ -28,24 +28,34 @@ def add_categorie():
         categorie = Categorie(name=form.name.data)
         db.session.add(categorie)
         db.session.commit()
-        flash('Categorie register','message')
+        flash('Categorie registered','success')
 
     if form.errors:
         flash(form.errors,'danger')
     return redirect(url_for('categorie.display_categories'))
 
 @categorie_blueprint.route('/update/categorie/<int:id>',methods=['GET','POST'])
+@login_required
 def update_categorie(id):
     form=UpdateRegistrationForm()
-    categorie= Categorie.query.filter_by(name=form.name.data).get_or_404(id)
+    categorie= Categorie.query.get_or_404(id)
     if form.validate_on_submit():
             categorie.name = form.name.data
             db.session.add(categorie)
             db.session.commit()
-            flash('Categorie updates','message')
+            flash('Categorie updated','success')
             return redirect(url_for('categorie.display_categories'))
     
     if form.errors:
-        flash(form.errors,'error')
+        flash(form.errors,'danger')
 
-    render_template('categorie/update_categorie.html',form=form,categorie=categorie)
+    return render_template('categorie/update_categorie.html',form=form,categorie=categorie)
+
+@categorie_blueprint.route('/delete/categorie/<int:id>',methods=['GET','POST'])
+@login_required
+def delete_categorie(id):
+    categorie= Categorie.query.get_or_404(id)
+    db.session.delete(categorie)
+    db.session.commit()
+    flash('Categorie deleted','success')
+    return redirect(url_for('categorie.display_categories'))

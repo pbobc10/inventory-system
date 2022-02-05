@@ -1,0 +1,83 @@
+{% extends 'base.html' %} {% block title %} update Stock {% endblock %} {%
+block page_content %}
+<br />
+<div class="row d-flex justify-content-center">
+  <div class="col-md-9">
+    <h4 class="mb-3">Update Stock</h4>
+    <form method="POST" >
+      {{ form.hidden_tag() }}
+      <div class="form-group">
+        <label class="form-label" for="name">Categorie</label>
+        {{ form.categorie(class="form-select") }}
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="name">Article</label>
+        {{ form.article(class="form-select",) }}
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="name">Quantite</label>
+        {{ form.quantite(class="form-control",placeholder="quantite",value=stock.quantite) }}
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="name">Alerte</label>
+        {{ form.alerte(class="form-control",placeholder="alerte",value=stock.alerte) }}
+      </div>
+
+      <br />
+      <a href="{{url_for('stock.display_stocks')}}" class="btn btn-secondary btn-sm">Close</a>
+
+      {{ form.submit(class="btn btn-primary btn-sm") }}
+    </form>
+  </div>
+</div>
+<script>
+  let categorie_select = document.getElementById("categorie");
+  let article_select = document.getElementById("article");
+
+  categorie_select.onchange = function () {
+    let categorie = categorie_select.value;
+
+    fetch("/stock/articles/" + categorie).then(function(response) {
+      response.json().then(function (data) {
+        let optionHTML = "";
+        
+        for (let article of data.articles) {
+            if(article.name === 'Select a Categorie'){
+          optionHTML +=
+            '<option selected disabled value="' + article.id + '">' + article.name + "</option>";
+            }
+            else{
+                optionHTML +=
+            '<option value="' + article.id + '">' + article.name + "</option>"; 
+            }
+        }
+        article_select.innerHTML = optionHTML;
+      });
+    });
+  }
+  categorie_select.onload= function () {
+    let categorie = categorie_select.value;
+
+    fetch("/stock/articles/" + categorie).then(function(response) {
+      response.json().then(function (data) {
+        let optionHTML = "";
+        
+        for (let article of data.articles) {
+            if(article.name === 'Select a Categorie'){
+          optionHTML +=
+            '<option selected disabled value="' + article.id + '">' + article.name + "</option>";
+            }
+            else{
+                optionHTML +=
+            '<option value="' + article.id + '">' + article.name + "</option>"; 
+            }
+        }
+        article_select.innerHTML = optionHTML;
+      });
+    });
+  }
+  // let selectElement = document.getElementById("categorie");
+  categorie_select.value = "{{stock_categorie_id}}"
+  article_select.value = "{{stock.article_id}}"
+</script>
+{% endblock %}

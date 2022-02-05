@@ -10,7 +10,9 @@ class Categorie(db.Model):
     __tablename__  = 'categories'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(64), unique=True, index=True, nullable=False)
-    articles = db.relationship('Article',backref='categorie',lazy = 'dynamic')
+    creation_date = db.Column(db.DateTime)
+    update_date = db.Column(db.DateTime)
+    articles = db.relationship('Article',backref='categorie',lazy='dynamic')
 
 
     def __repr__(self):
